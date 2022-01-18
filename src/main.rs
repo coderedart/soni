@@ -5,6 +5,13 @@ use macroquad::prelude::*;
 #[macroquad::main("egui with macroquad")]
 async fn main() {
     let plane_texture = Texture2D::from_file_with_format(PLANE_BYTES, Some(ImageFormat::Png));
+    let _plane_sound = macroquad::audio::load_sound_from_bytes(PLANE_SOUND_BYTES)
+        .await
+        .unwrap();
+    let width = screen_width() / 2.0;
+    let height = screen_height() / 2.0;
+    let x = screen_width() / 4.0;
+    let y = screen_height() / 4.0;
     let mut planes = vec![];
     loop {
         clear_background(WHITE);
@@ -100,10 +107,7 @@ async fn main() {
                 })
                 .collect::<Vec<Plane>>();
         });
-        let width = screen_width() / 2.0;
-        let height = screen_height() / 2.0;
-        let x = screen_width() / 4.0;
-        let y = screen_height() / 4.0;
+
         macroquad::shapes::draw_rectangle_lines(
             x,
             y,
@@ -141,7 +145,7 @@ async fn main() {
 }
 
 pub const PLANE_BYTES: &[u8] = include_bytes!("../plane.png");
-
+pub const PLANE_SOUND_BYTES: &[u8] = include_bytes!("../plane.ogg");
 #[derive(Debug, Clone, Copy)]
 pub struct Plane {
     /// in normalized coordinates of window. between 0.0 - 1.0
